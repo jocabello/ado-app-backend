@@ -2,6 +2,14 @@ const {Schema, model} = require('mongoose');
 
 const EmployeeSchema = Schema({
 
+
+    //TODO: required: true
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: false
+    },
+
     names: {
         type: String,
         required: true
@@ -18,10 +26,26 @@ const EmployeeSchema = Schema({
         type: String,
         required: true
     },
-    address: {
-        type: {},
+
+
+
+    addressStreetName: {
+        type: String,
         required: true
     },
+    addressNumber: {
+        type: String,
+        required: true
+    },
+    addressComuna: {
+        type: String,
+        require: true
+    },
+    addressRegion: {
+        type: String,
+        required: true
+    },
+
     heathCoverage: {
         type: String,
         required: true
@@ -38,16 +62,6 @@ const EmployeeSchema = Schema({
         type: String,
         required: true
     },
-    region: {
-        type: String,
-        required: true
-    },
-    streetName: {
-        type: String,
-        required: true
-    },
-    
-    
     siteTag: {
         type: [],
         required: false
@@ -61,23 +75,6 @@ const EmployeeSchema = Schema({
         required: false
     }
 
-    // notes: {
-    //     type: String
-    // },
-    // start: {
-    //     type: Date,
-    //     required: true
-    // },
-    // end: {
-    //     type: Date,
-    //     required: true
-    // },
-    // user: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'User',
-    //     required: true
-    // }
-
 });
 
 // para cambiar de _id a id en la respuesta
@@ -88,4 +85,5 @@ const EmployeeSchema = Schema({
 
 // })
 
-module.exports = model('Employee', EmployeeSchema);('')
+module.exports = model('Employee', EmployeeSchema);
+//('')

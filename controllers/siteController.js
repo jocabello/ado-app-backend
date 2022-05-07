@@ -1,79 +1,71 @@
 const {response} = require('express');
-const Employee = require('../models/EmployeeModel');
+const Site = require('../models/SiteModel');
 
 
-// @dec    get employees
-// @route  GET /api/employees
-// @access Private
-const getEmployees = async (req,res) => {
-    const employees = await Employee.find();
+const getSites = async () => {
+    const sites = await Site.find();
 
-    res.status(200).json(employees);
-}
+    res.status(200).json(sites);
+};
 
-// @dec    create employees
-// @route  POST /api/employees
-// @access Private
-const createEmployee = async (req,res = response) => {
+const createSite = async (req,res = response) => {
 
-    const employee = new Employee(req.body);
+    const site = new Site(req.body);
 
     try {
-
-        const employeeSaved =  await employee.save();
+        
+        const siteSaved = await site.save();
 
         res.json({
             ok: true,
-            employee: employeeSaved
+            site: siteSaved
         })
-        
+
     } catch (error) {
+        
         console.log(error);
+
         res.status(500).json({
             ok: false,
             msg: 'Contact an admin'
         })
     }
-}
+};
 
-// @dec    update employee
-// @route  PUT /api/employees/:id
-// @access Private
-const updateEmployee = async (req,res = response) => {
+const updateSite = async (req,res = response) => {
 
-    const employeeId = req.params.id;
+    const siteId = req.params.id;
     const _id = req._id;
 
-
     try {
-
-        const employee = await Employee.findById(employeeId);
         
+        const site = await Site.findById(siteId);
+
         // if(event.user.toString() !== _id){
         //     return res.status(401).json({
         //         ok: false,
         //         msg: 'Not authorized'
         //     });
-        // }
+        // }        
 
-        if(!employee){
+        if(!site){
             return res.status(404).json({
                 ok: false,
-                msg: 'Employee not found'
+                msg: 'Site not found'
             });
         }
 
-        const newEmployee = {
+        const newSite = {
             ...req.body,
             // user: _id
         }
 
         // {new:true} opción para que retorne el nuevo objeto y no el viejo por defecto
-        const updatedEmployee = await Employee.findByIdAndUpdate(employeeId, newEmployee, {new:true});
+        const updatedSite = await Site.findByIdAndUpdate(siteId, newSite, {new:true});
 
         res.json({
             ok: true,
-            employee: updatedEmployee
+            site: updatedSite
         });
 
     } catch (error) {
@@ -83,20 +75,17 @@ const updateEmployee = async (req,res = response) => {
             msg: 'Contact an admin'
         })
     }
-}
+};
 
-// @dec    delete employee
-// @route  DELETE /api/employees/:id
-// @access Private
-const deleteEmployee = async (req,res) => {
+const deleteSite = async (req,res = response) => {
 
-    const employeeId = req.params.id;
+    const siteId = req.params.id;
     const _id = req._id;
 
 
     try {
 
-        const employee = await Employee.findById(employeeId);
+        const site = await Site.findById(siteId);
         
         // if(employee.user.toString() !== _id){
         //     return res.status(401).json({
@@ -105,19 +94,18 @@ const deleteEmployee = async (req,res) => {
         //     });
         // }
 
-        if(!employee){
+        if(!site){
             return res.status(404).json({
                 ok: false,
-                msg: 'Employee not found'
+                msg: 'Site not found'
             });
         }
 
-        await Employee.findByIdAndDelete(employeeId);
+        await Site.findByIdAndDelete(siteId);
 
         res.json({
             ok: true
         });
-
 
     } catch (error) {
         console.log(error);
@@ -126,12 +114,11 @@ const deleteEmployee = async (req,res) => {
             msg: 'Contact an admin'
         })
     }
-}
-
+};
 
 module.exports = {
-    getEmployees,
-    createEmployee,
-    updateEmployee,
-    deleteEmployee
-}
+    getSites,
+    createSite,
+    updateSite,
+    deleteSite
+};

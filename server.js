@@ -13,5 +13,6 @@ dbConnection();
 app.use(express.json());
 
 app.use('/api/employees', require('./routes/employeeRoutes'));
+app.use('/api/auth', require('./routes/authRoutes'));
 
 app.listen(port, () => console.log(`Server running on port ${port}`));  
